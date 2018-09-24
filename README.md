@@ -32,16 +32,32 @@ While processing files, filters are applied first, then getters, then setters, t
 ### EPUB Paths
 
 Different attributes of an EPUB file are accessed through hierarchical paths:
+
 | Path | Alias | Description
 | ------------- | ------------- | ------------- |
 | . | | Root path (full file path)
 | CanLoadContent | | true if content.opf could be loaded, false otherwise
 | Content | | Root for all metadata from content.opf
+| Content.MetaCover | | Path to the cover picture inside the book archive
+| Content.Title | | Book title
+| Content.Creator | | Author
+| Content.Publisher | | Publisher
+| Content.Date | | Date of publishing
+| Content.Identifier | | ISBN, UUID or another book identifier
+| Content.Language | lang | [Language code](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) for the book
+| Content.Subject | | Book keywords (doesn't work for multiple subjects for now)
+| Content.Description || Blurb for the book
+| Content.Rights | | &copy; stuff
+| Content.Type | | Dublin Core metadata specification. Always must be "Text".
+| Content.Source | | An identifier (ISBN, UUID etc.) of book or series this EPUB is part of.
+| Content.Relation | | An identifier (ISBN, UUID etc.) of book or series this EPUB relates to.
+| Content.Coverage | | Dublin Core stuff
+| Content.Contributor | | More authors (broken in the same way as subject)
 
-
-### 
+### Verbs
 
 ## TODO
 
 * Add more paths
 * Allow globbing for root paths
+* Fix Content.Subject
