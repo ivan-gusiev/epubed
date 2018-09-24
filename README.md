@@ -56,8 +56,24 @@ Different attributes of an EPUB file are accessed through hierarchical paths:
 
 ### Verbs
 
+Some changes cannot be expressed as simple setters, so instead you invoke them as a verb.
+Any verb is fully specified by a path and a verb ID, separated by :: sigil.
+If verb is applied to the the whole document, just leave out path, but keep the :: sigil.
+
+| Path and Verb | Description
+| ------------- | -------------
+| ::fix-content-length | Removes 1 byte from content.opf document.
+
+## Implementation Notes
+
+* EPUB loading and manipulation is located in `epubed` namespace. The classes that end in -Model represent corresponding parts of book archive. All such classes are immutable, and receive required input from constructor parameters. They are also IDisposable, and must be released when disposed. Moreover, they must dispose all opened resources if an exception happens.
+* Navigation, getters/setters, filters and verbs are located in `epubed.Query` namespace. These classes use `epubed.*` object model to manipulate EPUB data, but provide type-less uniform interface to all attributes. The main type here is `ITraversable`, which represents a node in EPUB data tree. It has a mutable Value property, allows to run verbs and access children.
+* `QueryExecutor` contains main algorithm to run user-specified operations on every requested file. It contains multiple extensions points for resource management, error handling etc. SafeConsoleQueryExecutor is used by the app.
+* Command line parsing is located in `epubed.CommandLine` namespace. The code should be refactored and possibly replaced by a library.
+
 ## TODO
 
 * Add more paths
 * Allow globbing for root paths
 * Fix Content.Subject
+* Refactor `epubed.CommandLine`
